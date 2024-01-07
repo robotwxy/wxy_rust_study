@@ -1,1 +1,3 @@
 minigrep/target/*
+*/Cargo.lock
+.vscode/*
