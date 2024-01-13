@@ -1,3 +1,5 @@
+use std::thread;
+
 #[derive(Debug, PartialEq, Copy, Clone)]
 enum ShirtColor {
     Red,
@@ -49,4 +51,62 @@ fn main() {
         "The user with preference {:?} gets {:?}",
         user_pref2, giveaway2
     );
+
+    // more examples
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {:?}", list);
+
+    let only_borrows = || println!("From closure: {:?}", list);
+
+    println!("Before calling closure: {:?}", list);
+    only_borrows();
+    println!("After calling closure: {:?}", list);
+
+    let mut list = vec![1, 2, 3];
+    println!("2 Before defining closure: {:?}", list);
+
+    let mut borrow_mutably = || {
+        list.push(7);
+        println!("From closure: {:?}", list);
+    };
+
+    borrow_mutably();
+    println!("2 After defining closure: {:?}", list);
+
+    let mut list = vec![1, 2, 3];
+    println!("T Before defining closure: {:?}", list);
+
+    let closure = move || {
+        list.push(7);
+        println!("T From closure: {:?}", list);
+    };
+    thread::spawn(closure).join().unwrap();
+
+    let mut list = [
+        Rectangle {
+            width: 10,
+            height: 1,
+        },
+        Rectangle {
+            width: 3,
+            height: 5,
+        },
+        Rectangle {
+            width: 7,
+            height: 12,
+        },
+    ];
+
+    let mut num_sort_operations = 0;
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+        r.width
+    });
+    println!("{:#?}, sorted in {num_sort_operations} operations", list);
+}
+
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
 }

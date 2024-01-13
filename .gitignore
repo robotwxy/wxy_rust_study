@@ -1,4 +1,3 @@
-minigrep/target/*
-closure_study/target/*
+*/target/*
 */Cargo.lock
 .vscode/*
